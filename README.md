@@ -20,17 +20,15 @@ In this part, PIO has be used to read from BOOT PIN and write data to WS2812. Th
 void print_capture_buf(const uint32_t *buf, uint pin_base, uint pin_count, uint32_t n_samples) {
     uint record_size_bits = bits_packed_per_word(pin_count);
     for (int pin = 0; pin < pin_count; ++pin) {
-        //printf("%02d: ", pin + pin_base);
         for (int sample = 0; sample < n_samples; ++sample) {
             uint bit_index = pin + sample * pin_count;
             uint word_index = bit_index / record_size_bits;
-            if (buf[word_index] != 0){
-                button_is_pressed = 0x0;
-            }
-            else{
+            if (buf[word_index] == 0){
                 button_is_pressed = 0x1;
             }
-
+            else{
+                button_is_pressed = 0x0;
+            }
         }
     }
 }
